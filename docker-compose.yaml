@@ -1,0 +1,7 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: .\Dockerfiles\back.dockerfile
+        ports:
+            - 8000:8000

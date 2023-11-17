@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "gs-two"
+version = "0.1.0"
+description = ""
+authors = ["Matheus Mendes <mattheus2015@yahoo.com.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.104.1"
+SQLAlchemy = {extras = ["asyncio"], version = "^2.0.23"}
+uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
+gunicorn = "^21.2.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+mypy = "^1.7.0"
+bandit = "^1.7.5"
+isort = "^5.12.0"
+ruff = "^0.1.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

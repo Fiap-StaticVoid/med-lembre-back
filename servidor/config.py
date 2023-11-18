@@ -3,11 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 app = FastAPI()
-origins = ["*"]
+origens = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origens,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

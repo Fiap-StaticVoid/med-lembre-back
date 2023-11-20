@@ -38,6 +38,13 @@ def converter_recorrencia(valor: int, tipo: Recorrencia) -> int:
 
 
 class Lembrete(TabelaBase):
+    """
+    ## Representa um lembrete no banco de dados.
+
+    Pode ser um lembrete único ou recorrente.
+    Tende a ser usado para lembretes de medicamentos.
+    """
+
     __tablename__ = "lembretes"
 
     titulo: Mapped[str]

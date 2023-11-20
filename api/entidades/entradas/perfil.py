@@ -5,6 +5,12 @@ from banco.tabelas.perfil import Genero, TipoSanguineo
 
 
 class PerfilEntrada(Modelo):
+    """
+    ## São os dados necessários para criar um perfil.
+
+    Separamos entrada e saída para facilitar a validação.
+    """
+
     nome: str
     data_nascimento: date
     tipo_sanguineo: TipoSanguineo
@@ -13,6 +19,12 @@ class PerfilEntrada(Modelo):
 
 
 class PerfilEntradaOpcional(Modelo):
+    """
+    ## A mesma coisa que `PerfilEntrada`, mas com campos opcionais.
+
+    Necessário para atualizar um perfil de forma parcial.
+    """
+
     nome: str | None = None
     data_nascimento: date | None = None
     tipo_sanguineo: TipoSanguineo | None = None

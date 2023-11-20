@@ -5,6 +5,12 @@ from banco.tabelas.lembrete import Recorrencia
 
 
 class LembreteEntrada(Modelo):
+    """
+    ## São os dados necessários para criar um lembrete.
+
+    Separamos entrada e saída para facilitar a validação.
+    """
+
     titulo: str
     hora_inicio: time
     intervalo: int
@@ -15,6 +21,12 @@ class LembreteEntrada(Modelo):
 
 
 class LembreteEntradaOpcional(Modelo):
+    """
+    ## A mesma coisa que `LembreteEntrada`, mas com campos opcionais.
+
+    Necessário para atualizar um lembrete de forma parcial.
+    """
+
     titulo: str | None = None
     hora_inicio: time | None = None
     intervalo: int | None = None

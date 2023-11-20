@@ -27,6 +27,13 @@ class Genero(StrEnum):
 
 
 class Perfil(TabelaBase):
+    """
+    ## Representa um perfil no banco de dados.
+
+    O perfil é usado para identificar o usuário.
+    O perfil serve para facilitar a um médico a identificação de um paciente.
+    """
+
     __tablename__ = "perfis"
 
     nome: Mapped[str]

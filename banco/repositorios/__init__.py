@@ -14,6 +14,12 @@ M = TypeVar("M", bound=TabelaBase)
 
 @dataclass
 class Repositorio(Generic[E, EO, M]):
+    """
+    ## Repositório genérico.
+
+    O repositório é usado para abstrair o acesso ao banco de dados.
+    """
+
     sessao: AsyncSession
     modelo: type[M]
 

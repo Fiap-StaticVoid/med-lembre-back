@@ -1,8 +1,8 @@
 from datetime import date
 from enum import StrEnum
 
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import Mapped, mapped_column
 
 from banco.tabelas import TabelaBase
@@ -27,10 +27,10 @@ class Genero(StrEnum):
 
 
 class Perfil(TabelaBase):
+    __tablename__ = "perfis"
+
     nome: Mapped[str]
     data_nascimento: Mapped[date]
     tipo_sanguineo: Mapped[TipoSanguineo]
     genero: Mapped[Genero]
-    alergias_e_restricoes: Mapped[list[str]] = mapped_column(
-        MutableList.as_mutable(ARRAY(str))
-    )
+    alergias_e_restricoes: Mapped[list[str]] = mapped_column(ARRAY(String))

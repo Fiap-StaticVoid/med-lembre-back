@@ -38,6 +38,8 @@ def converter_recorrencia(valor: int, tipo: Recorrencia) -> int:
 
 
 class Lembrete(TabelaBase):
+    __tablename__ = "lembretes"
+
     titulo: Mapped[str]
     hora_inicio: Mapped[time]
     intervalo: Mapped[int]

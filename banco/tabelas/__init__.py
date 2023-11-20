@@ -1,11 +1,8 @@
-from typing import Annotated
-from uuid import uuid4
+from uuid import UUID, uuid4
 
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID as UUID_PG
 from sqlalchemy.ext.declarative import AbstractConcreteBase
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
-UUID_PK = Annotated[UUID, mapped_column(default=uuid4, primary_key=True)]
 
 
 class Base(DeclarativeBase):
@@ -13,4 +10,4 @@ class Base(DeclarativeBase):
 
 
 class TabelaBase(AbstractConcreteBase, Base):
-    id: Mapped[UUID_PK]
+    id: Mapped[UUID] = mapped_column(UUID_PG, default=uuid4, primary_key=True)

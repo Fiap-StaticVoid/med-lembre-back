@@ -5,7 +5,7 @@ Para poder rodar o backend do `MedLembre` é necessário ter o Docker instalado 
 Após a instalação do Docker, clone o repositório do `MedLembre` e entre na pasta clonada com os seguintes comandos:
 
 ```bash
-git clone
+git clone {url ou ssh do repositorio}
 cd med-lembre-back
 ```
 

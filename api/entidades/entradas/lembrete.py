@@ -12,3 +12,13 @@ class LembreteEntrada(Modelo):
     duracao: int
     duracao_tipo: Recorrencia
     concluido: bool
+
+
+class LembreteEntradaOpcional(Modelo):
+    titulo: str | None = None
+    hora_inicio: time | None = None
+    intervalo: int | None = None
+    intervalo_tipo: Recorrencia | None = None
+    duracao: int | None = None
+    duracao_tipo: Recorrencia | None = None
+    concluido: bool | None = None

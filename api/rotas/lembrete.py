@@ -1,11 +1,25 @@
 from uuid import UUID
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.entidades.entradas.lembrete import LembreteEntrada
+from api.entidades.entradas.lembrete import LembreteEntrada, LembreteEntradaOpcional
 from api.entidades.saidas.lembrete import LembreteResposta
+from banco import abrir_sessao
+from banco.repositorios import Repositorio
+from banco.tabelas.lembrete import Lembrete
 
 lembrete_router = APIRouter(prefix="/lembretes", tags=["Lembretes"])
+repo_lembrete = Repositorio[
+    LembreteEntrada,
+    LembreteEntradaOpcional,
+    Lembrete,
+]
+
+
+def abrir_repo_lembrete(sessao: AsyncSession = Depends(abrir_sessao)):
+    repo: repo_lembrete = Repositorio(sessao, Lembrete)
+    return repo
 
 
 @lembrete_router.post(
@@ -14,8 +28,11 @@ lembrete_router = APIRouter(prefix="/lembretes", tags=["Lembretes"])
     response_model=LembreteResposta,
     summary="Cria um novo lembrete",
 )
-def criar_lembrete(lembrete: LembreteEntrada):
-    pass
+async def criar_lembrete(
+    lembrete: LembreteEntrada, repo: repo_lembrete = Depends(abrir_repo_lembrete)
+):
+    _lembrete = await repo.criar(lembrete)
+    return _lembrete.para_dicionario()
 
 
 @lembrete_router.get(
@@ -24,8 +41,9 @@ def criar_lembrete(lembrete: LembreteEntrada):
     response_model=list[LembreteResposta],
     summary="Lista todos os lembretes",
 )
-def listar_lembretes():
-    pass
+async def listar_lembretes(repo: repo_lembrete = Depends(abrir_repo_lembrete)):
+    lembretes = await repo.listar()
+    return [lembrete.para_dicionario() for lembrete in lembretes]
 
 
 @lembrete_router.get(
@@ -34,8 +52,11 @@ def listar_lembretes():
     response_model=LembreteResposta,
     summary="Busca um lembrete pelo ID",
 )
-def buscar_lembrete(lembrete_id: UUID):
-    pass
+async def buscar_lembrete(
+    lembrete_id: UUID, repo: repo_lembrete = Depends(abrir_repo_lembrete)
+):
+    _lembrete = await repo.obter(lembrete_id)
+    return _lembrete.para_dicionario()
 
 
 @lembrete_router.patch(
@@ -44,8 +65,13 @@ def buscar_lembrete(lembrete_id: UUID):
     response_model=LembreteResposta,
     summary="Atualiza um lembrete pelo ID",
 )
-def atualizar_lembrete(lembrete_id: UUID, lembrete: LembreteEntrada):
-    pass
+async def atualizar_lembrete(
+    lembrete_id: UUID,
+    lembrete: LembreteEntradaOpcional,
+    repo: repo_lembrete = Depends(abrir_repo_lembrete),
+):
+    _lembrete = await repo.atualizar(lembrete_id, lembrete)
+    return _lembrete.para_dicionario()
 
 
 @lembrete_router.delete(
@@ -53,5 +79,7 @@ def atualizar_lembrete(lembrete_id: UUID, lembrete: LembreteEntrada):
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Apaga um lembrete pelo ID",
 )
-def apagar_lembrete(lembrete_id: UUID):
-    pass
+async def apagar_lembrete(
+    lembrete_id: UUID, repo: repo_lembrete = Depends(abrir_repo_lembrete)
+):
+    await repo.remover(lembrete_id)

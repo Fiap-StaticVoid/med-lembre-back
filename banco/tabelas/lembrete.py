@@ -54,3 +54,15 @@ class Lembrete(TabelaBase):
         duracao = converter_recorrencia(self.duracao, self.duracao_tipo)
 
         return duracao // intervalo
+
+    def para_dicionario(self):
+        return {
+            "id": self.id,
+            "titulo": self.titulo,
+            "hora_inicio": self.hora_inicio,
+            "intervalo": self.intervalo,
+            "intervalo_tipo": self.intervalo_tipo,
+            "duracao": self.duracao,
+            "duracao_tipo": self.duracao_tipo,
+            "concluido": self.concluido,
+        }

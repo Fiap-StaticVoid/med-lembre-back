@@ -1,11 +1,25 @@
 from uuid import UUID
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.entidades.entradas.perfil import PerfilEntrada
+from api.entidades.entradas.perfil import PerfilEntrada, PerfilEntradaOpcional
 from api.entidades.saidas.perfil import PerfilResposta
+from banco import abrir_sessao
+from banco.repositorios import Repositorio
+from banco.tabelas.perfil import Perfil
 
 perfil_router = APIRouter(prefix="/perfis", tags=["Perfis"])
+repo_perfil = Repositorio[
+    PerfilEntrada,
+    PerfilEntradaOpcional,
+    Perfil,
+]
+
+
+def abrir_repo_perfil(sessao: AsyncSession = Depends(abrir_sessao)):
+    repo: repo_perfil = Repositorio(sessao, Perfil)
+    return repo
 
 
 @perfil_router.post(
@@ -14,8 +28,11 @@ perfil_router = APIRouter(prefix="/perfis", tags=["Perfis"])
     response_model=PerfilResposta,
     summary="Cria um novo perfil",
 )
-def criar_perfil(perfil: PerfilEntrada):
-    pass
+async def criar_perfil(
+    perfil: PerfilEntrada, repo: repo_perfil = Depends(abrir_repo_perfil)
+):
+    _perfil = await repo.criar(perfil)
+    return _perfil.para_dicionario()
 
 
 @perfil_router.get(
@@ -24,8 +41,9 @@ def criar_perfil(perfil: PerfilEntrada):
     response_model=list[PerfilResposta],
     summary="Lista todos os perfis",
 )
-def listar_perfis():
-    pass
+async def listar_perfis(repo: repo_perfil = Depends(abrir_repo_perfil)):
+    perfis = await repo.listar()
+    return [perfil.para_dicionario() for perfil in perfis]
 
 
 @perfil_router.get(
@@ -34,8 +52,11 @@ def listar_perfis():
     response_model=PerfilResposta,
     summary="Busca um perfil pelo ID",
 )
-def buscar_perfil(perfil_id: UUID):
-    pass
+async def buscar_perfil(
+    perfil_id: UUID, repo: repo_perfil = Depends(abrir_repo_perfil)
+):
+    _perfil = await repo.obter(perfil_id)
+    return _perfil.para_dicionario()
 
 
 @perfil_router.patch(
@@ -44,8 +65,13 @@ def buscar_perfil(perfil_id: UUID):
     response_model=PerfilResposta,
     summary="Atualiza um perfil pelo ID",
 )
-def atualizar_perfil(perfil_id: UUID, perfil: PerfilEntrada):
-    pass
+async def atualizar_perfil(
+    perfil_id: UUID,
+    perfil: PerfilEntradaOpcional,
+    repo: repo_perfil = Depends(abrir_repo_perfil),
+):
+    _perfil = await repo.atualizar(perfil_id, perfil)
+    return _perfil.para_dicionario()
 
 
 @perfil_router.delete(
@@ -53,5 +79,7 @@ def atualizar_perfil(perfil_id: UUID, perfil: PerfilEntrada):
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Apaga um perfil pelo ID",
 )
-def apagar_perfil(perfil_id: UUID):
-    pass
+async def apagar_perfil(
+    perfil_id: UUID, repo: repo_perfil = Depends(abrir_repo_perfil)
+):
+    await repo.remover(perfil_id)

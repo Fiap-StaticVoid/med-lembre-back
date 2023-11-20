@@ -7,4 +7,4 @@ def snake_para_camel(texto: str) -> str:
 
 
 class Modelo(BaseModel):
-    model_config = ConfigDict(alias_generator=snake_para_camel)
+    model_config = ConfigDict(alias_generator=snake_para_camel, populate_by_name=True)

@@ -11,3 +11,11 @@ class Registro(TabelaBase):
     titulo: Mapped[str]
     data: Mapped[date]
     observacoes: Mapped[str]
+
+    def para_dicionario(self):
+        return {
+            "id": self.id,
+            "titulo": self.titulo,
+            "data": self.data,
+            "observacoes": self.observacoes,
+        }

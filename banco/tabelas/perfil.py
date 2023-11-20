@@ -34,3 +34,13 @@ class Perfil(TabelaBase):
     tipo_sanguineo: Mapped[TipoSanguineo]
     genero: Mapped[Genero]
     alergias_e_restricoes: Mapped[list[str]] = mapped_column(ARRAY(String))
+
+    def para_dicionario(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "data_nascimento": self.data_nascimento,
+            "tipo_sanguineo": self.tipo_sanguineo,
+            "genero": self.genero,
+            "alergias_e_restricoes": self.alergias_e_restricoes,
+        }

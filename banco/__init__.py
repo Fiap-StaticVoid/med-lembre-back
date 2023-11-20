@@ -11,8 +11,9 @@ engine = create_async_engine(
 async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 
-def abrir_sessao():
-    return async_session()
+async def abrir_sessao():
+    async with async_session() as sessao:
+        yield sessao
 
 
 def carregar_tabelas():

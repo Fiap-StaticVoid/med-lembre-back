@@ -22,10 +22,17 @@ def carregar_tabelas():
             import_module(f"banco.tabelas.{arquivo.stem}")
 
 
+def carregar_triggers():
+    for arquivo in (BASE_DIR / "triggers").glob("*.py"):
+        if arquivo.name != "__init__.py":
+            import_module(f"banco.triggers.{arquivo.stem}")
+
+
 async def iniciar_banco():
     from banco.tabelas import Base
 
     carregar_tabelas()
+    carregar_triggers()
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

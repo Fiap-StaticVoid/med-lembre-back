@@ -14,3 +14,19 @@ Agora, para rodar o backend, execute o seguinte comando:
 ```bash
 docker-compose up
 ```
+
+## Resolvendo problemas
+
+ - Erro ao iniciar a api do back pelo `docker-compose up`;
+   entre no arquivo banco/\_\_init\_\_.py e altere essas linhas:
+   ```python
+   engine = create_async_engine(
+       "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres",
+   )
+   ```
+   para:
+   ```python
+   engine = create_async_engine(
+       "postgresql+asyncpg://postgres:postgres@{nome do pod do postgres que o docker cria, exemplo: med-lembre-back-db-1}:5432/postgres",
+   )
+   ```

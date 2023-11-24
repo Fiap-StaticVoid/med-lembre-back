@@ -37,13 +37,23 @@ docker-compose up
 ## Por que usamos a ferramenta/framework/biblioteca X?
 
 - SQLAlchemy
+
     Optamos por usar o SQLAlchemy por ser um ORM que nos permite trabalhar com banco de dados de forma mais fácil e rápida.
 
+---
+
 - FastAPI
+
     Optamos por usar o fastapi por ser um framework que nos permite criar uma api de forma rápida e fácil.
 
+---
+
 - PostgreSQL
+
     Optamos por usar o PostgreSQL por ser um banco de dados relacional e por ser um dos mais usados no mercado.
 
+---
+
 - Docker
+
     Optamos por usar o Docker para facilitar a instalação e configuração do ambiente de desenvolvimento.

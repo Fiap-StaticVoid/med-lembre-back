@@ -1,3 +1,10 @@
+"""
+Triggers para a tabela lembretes.
+Ao criar um lembrete, se ele estiver concluído, um registro é criado.
+Ao atualizar um lembrete, se ele estiver concluído, um registro é criado.
+"""
+
+
 from sqlalchemy import DDL, event
 
 from banco.tabelas.lembrete import Lembrete
